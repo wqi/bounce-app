@@ -1,16 +1,16 @@
+"use strict";
 // Imports
-var React = require('react-native');
-var {
-  AppRegistry,
+import React, {
   StyleSheet,
+  Component,
   Text,
-  View,
-} = React;
+  View
+} from "react-native";
 
-var Swiper = require('react-native-swiper')
+import Swiper from "react-native-swiper";
 
 // Styles
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   wrapper: {
   },
   slide1: {
@@ -39,8 +39,8 @@ var styles = StyleSheet.create({
 })
 
 // Classes
-var CardView = React.createClass({
-  render: function() {
+export default class Bounce extends Component {
+  render() {
     return (
       <Swiper style={styles.wrapper} showsButtons={true}>
         <View style={styles.slide1}>
@@ -53,6 +53,6 @@ var CardView = React.createClass({
           <Text style={styles.text}>And simple</Text>
         </View>
       </Swiper>
-    )
+    )    
   }
-})
+} 
