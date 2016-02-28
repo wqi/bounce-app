@@ -64,6 +64,16 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1, 
+  },
+  noPosts: {
+    flex: 1,
+    alignItems: "stretch",
+    justifyContent: "center",
+    flexDirection: "column"
+  },
+  noPostsText: {
+    flex: 1, 
+    textAlign: "center"
   }
 });
 
@@ -74,12 +84,69 @@ class SwipeCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      y: 0
+      y: 0,
+      bounceCoords: [],
+      maxLat: -999999,
+      minLat: 999999,
+      maxLon: -999999,
+      minLon: 999999,
+      centerLon: -1,
+      centerLat: -1,
+      lonDelta: -1,
+      latDelta: -1
     }
   }
 
+  componentDidMount() {
+    this.getBouncesForPost(this.props.postId);
+  }
+
+  getBouncesForPost(postId) {
+    fetch("http://bounce9833.azurewebsites.net/api/post_bounces?post_id=" + postId, {method: "GET"})
+    .then((response) => response.json())
+    .then((responseData) => {
+      var coords = responseData.map(function(e) {
+        console.log(responseData);
+        return e.loc;
+      });
+      this.setState({
+        bounceCoords: coords
+      })
+
+      var maxLat = this.state.maxLat;
+      var minLat = this.state.minLat;
+      var maxLon = this.state.maxLon;
+      var minLon = this.state.minLon;
+      coords.forEach(function(e) {
+        var lon = e[0];
+        var lat = e[1];
+        if (lat > maxLat) maxLat = lat;
+        if (lat < minLat) minLat = lat;
+        if (lon > maxLon) maxLon = lon;
+        if (lon < minLon) minLon = lon;
+      });
+
+      var centerLon = (maxLon + minLon)/2
+      var centerLat = (maxLat + minLat)/2
+      var lonDelta = maxLon - minLon;
+      var latDelta = maxLat - minLat;
+
+      this.setState({
+        maxLat: maxLat,
+        minLat: minLat,
+        maxLon: maxLon,
+        minLon: minLon,
+        centerLon: centerLon,
+        centerLat: centerLat,
+        lonDelta: lonDelta,
+        latDelta: latDelta
+      });
+    })
+    .done();
+  }
+
   render() {
-    const { cardText } = this.props;
+    const { cardText, postId } = this.props;
     return ( 
       <View style={styles.cardcontainer}>
         <View style={styles.transparent}>
@@ -92,13 +159,19 @@ class SwipeCard extends Component {
           <View style={[styles.card, styles.back]}>
             <MapView 
               initialRegion={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
+                latitude: this.state.centerLat,
+                longitude: this.state.centerLon,
+                latitudeDelta: this.state.latDelta,
+                longitudeDelta: this.state.lonDelta,
               }}
               style={styles.map}
-            />
+            >
+              {this.state.bounceCoords.map(latlng => (
+                <MapView.Marker 
+                  coordinate={{latitude:latlng[1], longitude:latlng[0]}}
+                />
+              ))}
+            </MapView>
           </View>
         </FlipCard>
         <View style={styles.transparent}>
@@ -120,7 +193,8 @@ export default class CardView extends Component {
       longitude: -1,
       y: 0,
       offset: 0,
-      flipped: false
+      flipped: false,
+      loaded: false
     };
   }
 
@@ -144,6 +218,7 @@ export default class CardView extends Component {
       },
       (error) => alert(error.message),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
+    this.state.loaded = true;
   }
 
   getPostsAroundLocation() {
@@ -153,7 +228,6 @@ export default class CardView extends Component {
     })
     .then((response) => response.json())
     .then((responseData) => {
-      console.log(responseData);
       var posts = responseData.map(function(e) {
         return {text: e.text, y: 0, id: e._id};
       });
@@ -182,7 +256,6 @@ export default class CardView extends Component {
     })
     .then((response) => response.json())
     .then((responseData) => {
-      console.log(responseData);
     })
     .done();
   }
@@ -237,6 +310,13 @@ export default class CardView extends Component {
 
   render() {
     const { flipped } = this.props;
+    if (this.state.items.length == 0 && this.state.loaded) {
+      return (
+        <View style={styles.noPosts}>
+          <Text style={styles.noPostsText}>There are no posts nearby.</Text>
+        </View>
+      )
+    }
     return (
         <Swiper style={styles.wrapper} 
           index={this.state.index} 
@@ -247,7 +327,7 @@ export default class CardView extends Component {
           onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}>
           {this.state.items.map(function(item, index) {
             return (
-              <SwipeCard key={index} cardText={item.text} onSwipeBegin={this.onSwipeBegin}
+              <SwipeCard key={index} cardText={item.text} postId={item.id} onSwipeBegin={this.onSwipeBegin}
                 swipeDecoratorStyle={{
                   top: item.y,
                   position: 'absolute',
