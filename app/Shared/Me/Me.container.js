@@ -13,15 +13,13 @@ import React, {
 
 import RefreshableListView from "react-native-refreshable-listview";
 import BounceIcon from "../../../assets/icons/blue.png";
+import PostIcon from "../../../assets/icons/red.png";
 
 // Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginBottom: 58
-  },
-  outerListItem: {
-    marginTop: 20
   },
   listitem: {
     backgroundColor: "#57A0E5",
@@ -78,38 +76,58 @@ export default class Me extends Component {
   }
 
   componentDidMount() {
-    this.fetchPosts();
-    // this.fetchBounces();
+    this.fetchPosts("me");
+    this.fetchBounces("me");
   }
 
   renderRow(rowData, sectionID, rowID) {
-    return (
-      <View style={styles.outerListItem}>   
-        <View style={styles.listitem}>
-          <TouchableHighlight underlayColor='#dddddd'>
-            <View>
-              <View style={styles.titleContainer}>
-                <Text style={styles.titleText}>{rowData.bounce_count} bounce</Text>
+    if (rowData.author == "me") {
+      return (
+        <View>   
+          <View style={styles.listitem}>
+            <TouchableHighlight underlayColor='#dddddd'>
+              <View>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.titleText}>{rowData.bounce_count} bounce</Text>
+                </View>
+                <Text style={styles.body}>{rowData.text}</Text>
               </View>
-              <Text style={styles.body}>{rowData.text}</Text>
-            </View>
-          </TouchableHighlight>
+            </TouchableHighlight>
+          </View>
+          <Image source={PostIcon} style={styles.bounceIcon}/>
         </View>
-        <Image source={BounceIcon} style={styles.bounceIcon}/>
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View>   
+          <View style={styles.listitem}>
+            <TouchableHighlight underlayColor='#dddddd'>
+              <View>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.titleText}>{rowData.bounce_count} bounce</Text>
+                </View>
+                <Text style={styles.body}>lol</Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+          <Image source={BounceIcon} style={styles.bounceIcon}/>
+        </View>
+      );      
+    }
   }
 
   render() {
 
 
     return (
-      <View style={styles.container}>
+      <View style={styles.container} automaticallyAdjustContentInsets={true}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
           loadData={this.reloadData}
-          style={styles.container}/>
+          style={styles.container}
+          contentOffset={{x:0, y: -20}}
+          contentInset={{top: 20, left: 0, bottom: 0, right: 0}}/>
       </View>
     );
   }
@@ -124,7 +142,7 @@ export default class Me extends Component {
   }
 
   fetchPosts(uid) {
-    fetch("http://bounce9833.azurewebsites.net/api/my_posts", {method: "GET", query: JSON.stringify({uid: "me"})})
+    fetch("http://bounce9833.azurewebsites.net/api/my_posts?user_id=" + uid, {method: "GET"})
     .then((response) => response.json())
     .then((responseData) => {
       this.setState({
@@ -136,7 +154,7 @@ export default class Me extends Component {
   }
 
   fetchBounces(uid) {
-    fetch("http://bounce9833.azurewebsites.net/api/bounce", {method: "GET", query: JSON.stringify({uid: "me"})})
+    fetch("http://bounce9833.azurewebsites.net/api/bounce?user_id=" + uid, {method: "GET"})
     .then((response) => response.json())
     .then((responseData) => {
       this.setState({
