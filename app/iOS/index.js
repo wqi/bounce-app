@@ -1,32 +1,18 @@
-"use strict";
 // Imports
-import React, {
-  StyleSheet,
-  Component,
-  Text,
-  View,
-  Dimensions
-} from "react-native";
+"use strict";
 
-import CardView from "../Shared/Home/CardView.js";
-import * as D from "../Shared/Common/DimensionHelper.js";
-
-// Styles
-const styles = StyleSheet.create({
-  root: {
-    height: D.DEVICE_HEIGHT,
-    justifyContent: "center",
-    alignItems: "center"
-  }
-});
+import React, { Component } from "react-native";
+import TabBar from "./TabBar";
 
 // Classes
 export default class Bounce extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
-      <View style={styles.root}>
-        <CardView/>
-      </View>
-    )    
+      <TabBar/>
+    );
   }
-} 
+}

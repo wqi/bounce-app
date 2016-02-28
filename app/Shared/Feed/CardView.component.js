@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 export default class CardView extends Component {
   render() {
     return (
-      <Swiper style={styles.wrapper} showsButtons={false} height={200}>
+      <Swiper style={styles.wrapper} loop={false} showsButtons={false} height={200} bounces={true}>
         <View style={styles.cardcontainer}>
           <View style={styles.transparent}>
           </View>
