@@ -128,7 +128,7 @@ export default class CardView extends Component {
   postBounceAtLocation() {
     fetch("http://bounce9833.azurewebsites.net/api/bounce?lat=" + this.state.latitude + 
     "&lng=" + this.state.longitude + "&user_id=" + "INSERT_USER_ID_HERE" 
-    + "&post_id=" + this.state.items[this.state.index].id {
+    + "&post_id=" + this.state.items[this.state.index].id ,{
       method: "POST"
     })
     .then((response) => response.json())
