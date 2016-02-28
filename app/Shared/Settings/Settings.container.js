@@ -1,12 +1,14 @@
 "use strict";
 
 import React, {
+  SliderIOS,
   ListView,
   View,
   Component,
   StyleSheet,
   Text
 } from "react-native";
+import * as D from "../Common/DimensionHelper.js";
 
 
 const styles = StyleSheet.create({
@@ -30,25 +32,47 @@ const styles = StyleSheet.create({
     fontWeight: '100',
     color: 'black',
   },
+  slider: {
+    height: 20,
+    width: D.DEVICE_WIDTH*0.85,
+    margin: 6
   }
 });
 
 export default class Settings extends Component {
   constructor() {
     super();
-    var testData = [{settingName:"Range"}, {settingName:"Help"}, {settingName:"Created by"}]
+    var testData = [{settingName:"Range", type:"Slider"}, {settingName:"Help", type:"Text"}, {settingName:"Created by", type:"Text"}]
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: ds.cloneWithRows(testData)
+      dataSource: ds.cloneWithRows(testData),
+      value: 0,
     };
   }
 
   renderRow(rowData, sectionID, rowID) {
-    return (
-        <View>
-          <Text>{rowData.settingName}</Text>
+    if (rowData.type == "Slider") {
+      return (
+        <View style={styles.wrapper}>
+          <View style={styles.textView}>
+            <Text>{rowData.settingName}</Text>
+            <SliderIOS style={styles.slider}
+              minimumValue={0}
+              maximumValue={1}
+              onValueChange={(value) => this.setState({value: value})}
+            />
+          </View>
         </View>
-    );
+      );
+    } else {
+      return (
+        <View style={styles.wrapper}>
+          <View style={styles.textView}>
+            <Text>{rowData.settingName}</Text>
+          </View>
+        </View>
+      );
+    }
   }
 
   render() {
