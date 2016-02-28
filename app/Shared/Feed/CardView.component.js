@@ -8,14 +8,19 @@ import React, {
 } from "react-native";
 
 import Swiper from "react-native-swiper";
+import * as D from "../Common/DimensionHelper.js";
+
+const cardHeight = D.DEVICE_HEIGHT - 56;
 
 // Styles
 const styles = StyleSheet.create({
   wrapper: {
+    position: "relative",
+    flex: 1
   },
   cardcontainer: {
     flex: 1,
-    alignItems: "center",
+    alignItems: "stretch",
     flexDirection: "row"
   },
   text: {
@@ -25,11 +30,11 @@ const styles = StyleSheet.create({
   },
   transparent: {
     width: 10,
-    height: 200
   },
   card: {
+    marginTop: 10,
+    marginBottom: 35,
     flex: 1,
-    height: 200,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#9DD6EB",
@@ -40,7 +45,8 @@ const styles = StyleSheet.create({
 export default class CardView extends Component {
   render() {
     return (
-      <Swiper style={styles.wrapper} loop={false} showsButtons={false} height={200} bounces={true}>
+      <View>
+      <Swiper style={styles.wrapper} showsButtons={false} height={cardHeight}>
         <View style={styles.cardcontainer}>
           <View style={styles.transparent}>
           </View>
@@ -69,6 +75,7 @@ export default class CardView extends Component {
           </View>
         </View>
       </Swiper>
+      </View>
     )    
   }
 } 
