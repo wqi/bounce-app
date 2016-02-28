@@ -47,14 +47,47 @@ export default class CardView extends Component {
     super(props);
     this.state = {
       items: [],
-      index: 0
+      index: 0,
+      latitude: -1,
+      longitude: -1
     };
   }
 
   componentDidMount() {
-    this.setState({
-      items: [{text: 'asdf'}, {text: 'asdfasdf'}, {text:'asdfasdfasdf'}]
-    });
+    this.getCurrentLocation();
+    // this.setState({
+    //   items: [{text: 'asdf'}, {text: 'asdfasdf'}, {text:'asdfasdfasdf'}]
+    // });
+  }
+
+  getCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.state.latitude = position.coords.latitude;
+        this.state.longitude = position.coords.longitude;
+        this.getPostsAroundLocation();
+      },
+      (error) => alert(error.message),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
+  }
+
+  getPostsAroundLocation() {
+    fetch("http://bounce9833.azurewebsites.net/api/post?lat=" + this.state.latitude +
+    "&lng=" + this.state.longitude + "&offset=" + this.state.items.length, {
+      method: "GET"
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
+      var posts = responseData.map(function(e) {
+        return {text: e.text};
+      });
+      var currItems = this.state.items;
+      currItems = currItems.concat(posts);
+      this.setState({
+        items: currItems
+      });
+    })
+    .done();
   }
 
   _onMomentumScrollEnd(e, estate, context) {
@@ -64,10 +97,7 @@ export default class CardView extends Component {
     });
     var itemsArray = this.state.items
     if (cardIndex == itemsArray.length-1) {
-      itemsArray.push({text:'new item'});
-      this.setState({
-        items: itemsArray
-      })
+      this.getPostsAroundLocation();
     }
   }
 
