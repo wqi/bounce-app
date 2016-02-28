@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#dddddd"
 	},
 	textarea: {
-		height: 300,
+		height: 150,
 		fontSize: 20,
 		marginTop: 10,
 		marginBottom: 20,
@@ -31,10 +31,12 @@ const styles = StyleSheet.create({
 	button: {
 		backgroundColor: "limegreen",
 		padding: 5,
+		borderRadius: 5
 	},
 	buttonText: {
 		fontSize: 24,
-		textAlign: "center"
+		textAlign: "center",
+		color: "white"
 	}
 })
 
