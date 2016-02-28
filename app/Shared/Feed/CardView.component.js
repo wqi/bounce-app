@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#000000",
     fontSize: 36,
-    margin: 15
+    margin: 15,
   },
   transparent: {
     width: 10,
@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
       height: 1
     },
     shadowColor: 'black',
-    shadowOpacity: 0.2
+    shadowOpacity: 0.2,
+    overflow: "hidden"
   },
   viewMap: {
     textAlign: "center",
