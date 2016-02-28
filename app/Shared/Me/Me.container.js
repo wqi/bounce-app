@@ -22,14 +22,14 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 58
   },
-  newitem: {
-    backgroundColor: "#6A8CD6",
+  listitem: {
+    backgroundColor: "#FF9F45",
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 5
   },
-  bounceitem: {
-    backgroundColor: "#FF9F45",
+  newitem: {
+    backgroundColor: "#57A0E5",
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 5
@@ -88,7 +88,7 @@ export default class Me extends Component {
   }
 
   renderRow(rowData, sectionID, rowID) {
-    if (rowData.author == "me") {
+    if (rowData.author == deviceId) {
       return (
         <View>   
           <View style={styles.newitem}>
