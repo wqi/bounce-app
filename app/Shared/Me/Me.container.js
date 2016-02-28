@@ -11,8 +11,8 @@ import React, {
   Image
 } from "react-native";
 
-import BounceIcon from "../../../assets/icons/blue.png";
-import PostIcon from "../../../assets/icons/red.png";
+import BounceIcon from "../../../assets/icons/bounceicon.png";
+import PostIcon from "../../../assets/icons/bounceplus.png";
 import DeviceInfo from "react-native-device-info";
 const deviceId = DeviceInfo.getUniqueID().split("-").join("");
 
@@ -22,8 +22,14 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 58
   },
-  listitem: {
-    backgroundColor: "#57A0E5",
+  newitem: {
+    backgroundColor: "#6A8CD6",
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 5
+  },
+  bounceitem: {
+    backgroundColor: "#FF9F45",
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 5
@@ -85,7 +91,7 @@ export default class Me extends Component {
     if (rowData.author == "me") {
       return (
         <View>   
-          <View style={styles.listitem}>
+          <View style={styles.newitem}>
             <TouchableHighlight underlayColor='#dddddd'>
               <View>
                 <View style={styles.titleContainer}>
@@ -107,7 +113,7 @@ export default class Me extends Component {
                 <View style={styles.titleContainer}>
                   <Text style={styles.titleText}>{rowData.bounce_count} bounce</Text>
                 </View>
-                <Text style={styles.body}>lol</Text>
+                <Text style={styles.body}>{rowData.text}</Text>
               </View>
             </TouchableHighlight>
           </View>
