@@ -125,6 +125,19 @@ export default class CardView extends Component {
     .done();
   }
 
+  postBounceAtLocation() {
+    fetch("http://bounce9833.azurewebsites.net/api/bounce?lat=" + this.state.latitude + 
+    "&lng=" + this.state.longitude + "&user_id=" + "INSERT_USER_ID_HERE" 
+    + "&post_id=" + this.state.items[this.state.index].id {
+      method: "POST"
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
+      console.log(responseData);
+    })
+    .done();
+  }
+
   _onMomentumScrollEnd(e, estate, context) {
     var cardIndex = estate.index;
     this.setState({
@@ -138,6 +151,7 @@ export default class CardView extends Component {
 
   onSwipeBegin = ({direction, distance, velocity}) => {
     console.log('onSwipeBegin');
+    postBounceAtLocation();
     var newY = 0
     switch(direction) {
       case SWIPE_DOWN:
