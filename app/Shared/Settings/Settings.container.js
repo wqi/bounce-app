@@ -1,6 +1,7 @@
 "use strict";
 
 import React, {
+  ListView,
   View,
   Component,
   StyleSheet,
@@ -17,13 +18,28 @@ const styles = StyleSheet.create({
 export default class Settings extends Component {
   constructor() {
     super();
+    var testData = [{settingName:"Range"}, {settingName:"Help"}, {settingName:"Created by"}]
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows(testData)
+    };
+  }
+
+  renderRow(rowData, sectionID, rowID) {
+    return (
+        <View>
+          <Text>{rowData.settingName}</Text>
+        </View>
+    );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>{"Ayy lmao"}</Text>
-        <Text>{"Hopefully this will work"}</Text>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow.bind(this)}
+        />
       </View>
     );
   }
