@@ -53,7 +53,7 @@ export default class CardView extends Component {
 
   componentDidMount() {
     this.setState({
-      items: [{key: 1, text: 'asdf'}, {key:2, text: 'asdfasdf'}, {key:3, text:'asdfasdfasdf'}]
+      items: [{text: 'asdf'}, {text: 'asdfasdf'}, {text:'asdfasdfasdf'}]
     });
   }
 
@@ -64,7 +64,7 @@ export default class CardView extends Component {
     });
     var itemsArray = this.state.items
     if (cardIndex == itemsArray.length-1) {
-      itemsArray.push({key:4, text:'new item'});
+      itemsArray.push({text:'new item'});
       this.setState({
         items: itemsArray
       })
