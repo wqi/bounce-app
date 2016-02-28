@@ -83,7 +83,7 @@ class SwipeCard extends Component {
       <View style={styles.cardcontainer}>
         <View style={styles.transparent}>
         </View>
-        <FlipCard>
+        <FlipCard onFlipped={(isFlipped)=>{this.props.onChange(isFlipped)}}>
           <View style={[styles.card, styles.face]}>
             <Text style={styles.text}>{cardText}</Text>
             <Text style={styles.viewMap}>Tap to View Map</Text>
@@ -118,7 +118,8 @@ export default class CardView extends Component {
       latitude: -1,
       longitude: -1,
       y: 0,
-      offset: 0
+      offset: 0,
+      flipped: false
     };
   }
 
@@ -128,6 +129,10 @@ export default class CardView extends Component {
     //   items: [{text: 'asdf'}, {text: 'asdfasdf'}, {text:'asdfasdfasdf'}]
     // });
   }
+
+  onChange = (flipped) => {
+    this.setState({ flipped });
+  };
 
   getCurrentLocation() {
     navigator.geolocation.getCurrentPosition(
@@ -186,7 +191,9 @@ export default class CardView extends Component {
   }
 
   onSwipeBegin = ({direction, distance, velocity}) => {
-    console.log('onSwipeBegin');
+    if (this.state.flipped) {
+      return;
+    }
     this.postBounceAtLocation();
     var newY = 0
     switch(direction) {
@@ -221,6 +228,7 @@ export default class CardView extends Component {
   };
 
   render() {
+    const { flipped } = this.props;
     return (
         <Swiper style={styles.wrapper} 
           index={this.state.index} 
@@ -236,7 +244,9 @@ export default class CardView extends Component {
                   top: item.y,
                   position: 'absolute',
                   height: cardHeight,
-                  width: cardWidth}}/>
+                  width: cardWidth}}
+                flipped={flipped}
+                onChange={this.onChange}/>
             )
           }.bind(this))}
         </Swiper>
