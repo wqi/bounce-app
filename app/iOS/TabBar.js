@@ -10,6 +10,7 @@ import React, {
 import Feed from "../Shared/Feed/Feed.container";
 import Me from "../Shared/Me/Me.container";
 import Settings from "../Shared/Settings/Settings.container";
+import NewPost from "../Shared/NewPost/NewPost.container";
 
 // Styles
 const styles = StyleSheet.create({
@@ -39,14 +40,23 @@ export default class TabBar extends Component {
         tintColor= "white"
         barTintColor= "#6d8ed4"
         titleTextColor= "white"
+        ref="nav"
         translucent={false}
         navigationBarHidden={false}
         initialRoute={{
           title: "Feed",
           component: Feed,
-          rightButtonIcon: {uri: writeIcon, scale: 10}
+          rightButtonIcon: {uri: writeIcon, scale: 10},
+          onRightButtonPress: () => { this.refs.nav.push({
+            title: "New Post",
+            component: NewPost
+          })},
         }}/>
     );
+  }
+
+  renderNewPost() {
+    
   }
 
   renderMe() {

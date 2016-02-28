@@ -171,7 +171,7 @@ export default class CardView extends Component {
     fetch("http://bounce9833.azurewebsites.net/api/bounce" ,{
       method: "POST",
       headers: {
-        'Content-Type': 'X-www-form-urlencoded'
+        'Content-Type': 'Application/JSON'
       },
       body: JSON.stringify({
         lat: this.state.latitude,
