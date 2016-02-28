@@ -11,6 +11,7 @@
     "react-native": "^0.20.0",
     "react-native-device-info": "^0.8.3",
     "react-native-gesture-recognizers": "^0.2.3",
+    "react-native-maps": "^0.3.0",
     "react-native-swiper": "^1.4.3"
   }
 }
