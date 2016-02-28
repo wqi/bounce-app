@@ -11,7 +11,6 @@ import React, {
   Image
 } from "react-native";
 
-import RefreshableListView from "react-native-refreshable-listview";
 import BounceIcon from "../../../assets/icons/blue.png";
 import PostIcon from "../../../assets/icons/red.png";
 
