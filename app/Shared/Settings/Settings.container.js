@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 export default class Settings extends Component {
   constructor() {
     super();
-    var testData = [{settingName:"Range", type:"Slider"}, {settingName:"Help", type:"Text"}, {settingName:"Created by", type:"Text"}]
+    var testData = [{settingName:"Range", type:"Slider"}, {settingName:"Help", type:"Text"}, {settingName:"Acknowledgements", type:"Text"}]
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: ds.cloneWithRows(testData),
