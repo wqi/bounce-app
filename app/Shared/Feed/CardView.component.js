@@ -11,7 +11,8 @@ import React, {
 
 import Swiper from "../../../node_modules/react-native-swiper/dist/index.js";
 import * as D from "../Common/DimensionHelper.js";
-import { swipeable } from 'react-native-gesture-recognizers';
+import { swipeable } from "react-native-gesture-recognizers";
+import DeviceInfo from "react-native-device-info";
 const { directions: { SWIPE_UP, SWIPE_LEFT, SWIPE_DOWN, SWIPE_RIGHT } } = swipeable;
 
 const cardHeight = D.DEVICE_HEIGHT - 56;
@@ -145,7 +146,7 @@ export default class CardView extends Component {
 
   postBounceAtLocation() {
     fetch("http://bounce9833.azurewebsites.net/api/bounce?lat=" + this.state.latitude + 
-    "&lng=" + this.state.longitude + "&user_id=" + "INSERT_USER_ID_HERE" 
+    "&lng=" + this.state.longitude + "&user_id=" + DeviceInfo.getUniqueID() 
     + "&post_id=" + this.state.items[this.state.index].id ,{
       method: "POST"
     })
