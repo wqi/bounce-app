@@ -1,6 +1,7 @@
 "use strict";
 // Imports
-import React, { StyleSheet,
+import React, { 
+  StyleSheet,
   TabBarIOS,
   NavigatorIOS,
   Component
