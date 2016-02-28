@@ -117,6 +117,13 @@ export default class Me extends Component {
 
   render() {
 
+    if(this.state.dataSource.length == 0 && this.state.loaded) {
+      return (
+        <View style={styles.container}>
+          <Text style={{textAlign: "center"}}>You have no activity.</Text>
+        </View>
+      )
+    }
 
     return (
       <View style={styles.container} automaticallyAdjustContentInsets={true}>
