@@ -13,6 +13,7 @@ import Swiper from "../../../node_modules/react-native-swiper/dist/index.js";
 import * as D from "../Common/DimensionHelper.js";
 import { swipeable } from "react-native-gesture-recognizers";
 import DeviceInfo from "react-native-device-info";
+import FlipCard from 'react-native-flip-card'
 const { directions: { SWIPE_UP, SWIPE_LEFT, SWIPE_DOWN, SWIPE_RIGHT } } = swipeable;
 
 const cardHeight = D.DEVICE_HEIGHT - 56;
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
   transparent: {
     width: 10,
   },
+
   card: {
     marginTop: 10,
     marginBottom: 68,
@@ -73,19 +75,22 @@ class SwipeCard extends Component {
 
   render() {
     const { cardText } = this.props;
-    return (
+    return ( 
       <View style={styles.cardcontainer}>
         <View style={styles.transparent}>
         </View>
-        <View style={styles.card}>
-          <Text style={styles.text}>{cardText}</Text>
-          <TouchableHighlight underlayColor={"#dddddd"}>
-            <Text style={styles.viewMap}>View Map</Text>
-          </TouchableHighlight>
-        </View>
+        <FlipCard>
+          <View style={[styles.card, styles.face]}>
+            <Text style={styles.text}>{cardText}</Text>
+            <Text style={styles.viewMap}>Tap to View Map</Text>
+          </View>
+          <View style={[styles.card, styles.back]}>
+            <Text style={styles.viewMap}>Tap to Return to Post</Text>
+          </View>
+        </FlipCard>
         <View style={styles.transparent}>
         </View>
-      </View>
+      </View> 
     )
   }
 }
