@@ -5,7 +5,8 @@ import React, {
   Component,
   Text,
   View,
-  LayoutAnimation
+  LayoutAnimation,
+  TouchableHighlight
 } from "react-native";
 
 import Swiper from "../../../node_modules/react-native-swiper/dist/index.js";
@@ -20,7 +21,8 @@ const cardWidth = D.DEVICE_WIDTH;
 const styles = StyleSheet.create({
   wrapper: {
     position: "relative",
-    flex: 1
+    flex: 1,
+    backgroundColor: '#dddddd'
   },
   cardcontainer: {
     flex: 1,
@@ -28,9 +30,9 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   text: {
-    color: "#fff",
-    fontSize: 20,
-    margin: 10
+    color: "#000000",
+    fontSize: 36,
+    margin: 15
   },
   transparent: {
     width: 10,
@@ -39,8 +41,21 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 68,
     flex: 1,
-    backgroundColor: "#9DD6EB",
-    borderRadius: 10
+    flexDirection: "column",
+    justifyContent: "space-between",
+    backgroundColor: "#ffffff",
+    borderRadius: 2,
+    shadowOffset: {
+      width: 1,
+      height: 1
+    },
+    shadowColor: 'black',
+    shadowOpacity: 0.2
+  },
+  viewMap: {
+    textAlign: "center",
+    marginBottom: 10,
+    marginTop: 10
   }
 });
 
@@ -63,6 +78,9 @@ class SwipeCard extends Component {
         </View>
         <View style={styles.card}>
           <Text style={styles.text}>{cardText}</Text>
+          <TouchableHighlight underlayColor={"#dddddd"}>
+            <Text style={styles.viewMap}>View Map</Text>
+          </TouchableHighlight>
         </View>
         <View style={styles.transparent}>
         </View>
@@ -119,7 +137,7 @@ export default class CardView extends Component {
       currItems = currItems.concat(posts);
       this.setState({
         items: currItems,
-        offset: this.state.offset + posts.length
+        offset: this.state.offset + 10
       });
     })
     .done();
@@ -151,7 +169,7 @@ export default class CardView extends Component {
 
   onSwipeBegin = ({direction, distance, velocity}) => {
     console.log('onSwipeBegin');
-    postBounceAtLocation();
+    this.postBounceAtLocation();
     var newY = 0
     switch(direction) {
       case SWIPE_DOWN:
