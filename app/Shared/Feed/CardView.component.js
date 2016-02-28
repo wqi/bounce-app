@@ -7,68 +7,100 @@ import React, {
   View
 } from "react-native";
 
-import Swiper from "react-native-swiper";
+import Swiper from "../../../node_modules/react-native-swiper/dist/index.js";
+import * as D from "../Common/DimensionHelper.js";
+
+const cardHeight = D.DEVICE_HEIGHT - 56;
 
 // Styles
 const styles = StyleSheet.create({
   wrapper: {
+    position: "relative",
+    flex: 1
   },
   cardcontainer: {
     flex: 1,
-    alignItems: "center",
+    alignItems: "stretch",
     flexDirection: "row"
   },
   text: {
     color: "#fff",
-    fontSize: 30,
-    fontWeight: "bold",
+    fontSize: 20,
+    margin: 10
   },
   transparent: {
     width: 10,
-    height: 200
   },
   card: {
+    marginTop: 10,
+    marginBottom: 68,
     flex: 1,
-    height: 200,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "#9DD6EB",
+    borderRadius: 10
   }
 });
 
+
 // Classes
 export default class CardView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: [],
+      index: 0
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      items: [{key: 1, text: 'asdf'}, {key:2, text: 'asdfasdf'}, {key:3, text:'asdfasdfasdf'}]
+    });
+  }
+
+  _onMomentumScrollEnd(e, estate, context) {
+    var cardIndex = estate.index;
+    this.setState({
+      index: cardIndex
+    });
+    var itemsArray = this.state.items
+    if (cardIndex == itemsArray.length-1) {
+      itemsArray.push({key:4, text:'new item'});
+      this.setState({
+        items: itemsArray
+      })
+    }
+  }
+
   render() {
     return (
-      <Swiper style={styles.wrapper} loop={false} showsButtons={false} height={200} bounces={true}>
-        <View style={styles.cardcontainer}>
-          <View style={styles.transparent}>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.text}>Hello Swiper</Text>
-          </View>
-          <View style={styles.transparent}>
-          </View>
-        </View>
-        <View style={styles.cardcontainer}>
-          <View style={styles.transparent}>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.text}>Beautiful</Text>
-          </View>
-          <View style={styles.transparent}>
-          </View>
-        </View>
-        <View style={styles.cardcontainer}>
-          <View style={styles.transparent}>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.text}>And Simple</Text>
-          </View>
-          <View style={styles.transparent}>
-          </View>
-        </View>
-      </Swiper>
+        <Swiper style={styles.wrapper} 
+          index={this.state.index} 
+          showsButtons={false} 
+          height={cardHeight} 
+          loop={false} 
+          showsPagination={false} 
+          onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}>
+          {this.state.items.map(function(item, index) {
+            return (
+              <View key={index} style={styles.cardcontainer}>
+                <View style={styles.transparent}>
+                </View>
+                <View style={styles.card}>
+                  <Text style={styles.text}>{item.text}</Text>
+                </View>
+                <View style={styles.transparent}>
+                </View>
+              </View>
+            )
+          })}
+        </Swiper>
     )    
   }
+
+  _onScrollEnd(e) {
+    console.log('asdf');
+  }
+
+  
+
 } 
