@@ -12,6 +12,24 @@ import React, {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  wrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingRight: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e9e9e9',
+    marginTop: 20
+  },
+  textView: {
+    marginLeft: 20,
+    marginBottom: 10
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: '100',
+    color: 'black',
+  },
   }
 });
 
