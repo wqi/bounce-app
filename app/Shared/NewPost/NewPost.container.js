@@ -75,6 +75,7 @@ export default class NewPost extends Component {
 	    .then((response) => response.json())
 	    .then((responseData) => {
 	      console.log(responseData);
+	      this.props.navigator.pop();
 	    })
 	    .done();
 	}
