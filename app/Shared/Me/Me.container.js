@@ -13,6 +13,8 @@ import React, {
 
 import BounceIcon from "../../../assets/icons/blue.png";
 import PostIcon from "../../../assets/icons/red.png";
+import DeviceInfo from "react-native-device-info";
+const deviceId = DeviceInfo.getUniqueID().split("-").join("");
 
 // Styles
 const styles = StyleSheet.create({
@@ -75,8 +77,8 @@ export default class Me extends Component {
   }
 
   componentDidMount() {
-    this.fetchPosts("me");
-    this.fetchBounces("me");
+    this.fetchPosts(deviceId);
+    this.fetchBounces(deviceId);
   }
 
   renderRow(rowData, sectionID, rowID) {
@@ -117,6 +119,13 @@ export default class Me extends Component {
 
   render() {
 
+    if(this.state.dataSource.length == 0 && this.state.loaded) {
+      return (
+        <View style={styles.container}>
+          <Text style={{textAlign: "center"}}>You have no activity.</Text>
+        </View>
+      )
+    }
 
     return (
       <View style={styles.container} automaticallyAdjustContentInsets={true}>
