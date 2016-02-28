@@ -17,6 +17,7 @@ const { directions: { SWIPE_UP, SWIPE_LEFT, SWIPE_DOWN, SWIPE_RIGHT } } = swipea
 
 const cardHeight = D.DEVICE_HEIGHT - 56;
 const cardWidth = D.DEVICE_WIDTH;
+const deviceId = DeviceInfo.getUniqueID().split("-").join("");
 
 // Styles
 const styles = StyleSheet.create({
@@ -145,10 +146,17 @@ export default class CardView extends Component {
   }
 
   postBounceAtLocation() {
-    fetch("http://bounce9833.azurewebsites.net/api/bounce?lat=" + this.state.latitude + 
-    "&lng=" + this.state.longitude + "&user_id=" + DeviceInfo.getUniqueID() 
-    + "&post_id=" + this.state.items[this.state.index].id ,{
-      method: "POST"
+    fetch("http://bounce9833.azurewebsites.net/api/bounce" ,{
+      method: "POST",
+      headers: {
+        'Content-Type': 'X-www-form-urlencoded'
+      },
+      body: JSON.stringify({
+        lat: this.state.latitude,
+        lng: this.state.longitude,
+        user_id: deviceId,
+        post_id: this.state.items[this.state.index].id
+      })
     })
     .then((response) => response.json())
     .then((responseData) => {
